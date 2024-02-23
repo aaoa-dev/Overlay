@@ -52,16 +52,12 @@ const check = (tags) => {
 };
 
 const reset = (tags, message) => {
-  if (
-    Object.entries(tags.badges).some(
-      (badge) => badge.broadcaster || badge.moderator
-    )
-  ) {
+  if (!tags.badges || !Object.entries(tags.badges).some(([key]) => key === "broadcaster" || key === "moderator")) {
     return;
   }
-  console.log(message);
   if (message === "!raid" || message === "!raid2") {
     localStorage.removeItem("players");
+    console.log('Local Storage cleared');
   }
 };
 
