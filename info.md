@@ -28,3 +28,33 @@
 "username": "stoney_eagle",
 "message-type": "chat"
 }
+
+{
+"badge-info": {
+"subscriber": "37"
+},
+"badges": {
+"broadcaster": "1",
+"subscriber": "3036",
+"sub-gifter": "300"
+},
+"color": "#00CE78",
+"display-name": "aaoa*",
+"emotes": null,
+"first-msg": false,
+"flags": "0-5:A.6/I.5/P.6",
+"id": "d8cb72f9-6b88-44e3-a542-b7f1ab84ea99",
+"mod": false,
+"returning-chatter": false,
+"room-id": "123859191",
+"subscriber": true,
+"tmi-sent-ts": "1708611206841",
+"turbo": false,
+"user-id": "123859191",
+"user-type": null,
+"emotes-raw": null,
+"badge-info-raw": "subscriber/37",
+"badges-raw": "broadcaster/1,subscriber/3036,sub-gifter/300",
+"username": "aaoa*",
+"message-type": "chat"
+}

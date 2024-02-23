@@ -7,23 +7,17 @@ const player2Score = document.getElementById("player2-Score");
 let player1 = "streamelements";
 let player2 = "stoney_eagle";
 
-const players = [
-  {
-    name: "StreamElements",
-    user: "streamelements",
-    score: 0,
-  },
-  {
-    name: "Stoney_Eagle",
-    user: "stoney_eagle",
-    score: 0,
-  },
-  {
-    name: "aaoa_",
-    user: "aaoa_",
-    score: 0,
-  },
-];
+const players = [];
+
+const playersString = localStorage.getItem("players");
+console.log(playersString);
+if (playersString) {
+  const playersArr = JSON.parse(playersString);
+  if (Array.isArray(playersArr)) {
+    players.push(...playersArr);
+  }
+  console.log(playersArr);
+}
 
 const updateScore = () => {
   players.sort((a, b) => b.score - a.score);
@@ -39,12 +33,36 @@ const updateScore = () => {
   });
 };
 
-const check = (username) => {
-  const player = players.find((player) => player.user == username);
-  if (player) {
+updateScore();
+
+const check = (tags) => {
+  if (players.some((player) => player.user == tags.username)) {
+    const player = players.find((player) => player.user == tags.username);
+
     player.score += 1;
+  } else {
+    players.push({
+      name: tags["display-name"],
+      user: tags.username,
+      score: 1,
+    });
   }
+  localStorage.setItem("players", JSON.stringify(players));
   updateScore();
+};
+
+const reset = (tags, message) => {
+  if (
+    Object.entries(tags.badges).some(
+      (badge) => badge.broadcaster || badge.moderator
+    )
+  ) {
+    return;
+  }
+  console.log(message);
+  if (message === "!raid" || message === "!raid2") {
+    localStorage.removeItem("players");
+  }
 };
 
 const client = new tmi.Client({
@@ -54,11 +72,6 @@ const client = new tmi.Client({
 client.connect().catch(console.error);
 client.on("message", (channel, tags, message, self) => {
   if (self) return;
-  if (tags.username === player1 || tags.username === player2) {
-    check(tags.username); // new function check
-  }
+  check(tags);
+  reset(tags, message);
 });
-
-// function playerCheck(tags.username) {
-
-// }
