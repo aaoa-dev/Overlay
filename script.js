@@ -33,12 +33,21 @@ const updateScore = () => {
   });
 };
 
+let isRaiding = false;
+
+const resetInterface = () => {
+    player1Name.innerText = "N/A";
+    player1Score.innerText = 0;
+    player2Name.innerText = "N/A";
+    player2Score.innerText = 0;
+  };
+
 updateScore();
 
 const check = (tags) => {
+  if (isRaiding) return;
   if (players.some((player) => player.user == tags.username)) {
-    const player = players.find((player) => player.user == tags.username);
-
+    const player = players.find((player) => player.user == tags.username); 
     player.score += 1;
   } else {
     players.push({
@@ -56,9 +65,19 @@ const reset = (tags, message) => {
     return;
   }
   if (message === "!raid" || message === "!raid2") {
-    localStorage.removeItem("players");
-    console.log('Local Storage cleared');
+    localStorage.removeItem("players"); // but not this
+    console.log('Local Storage cleared'); // this works
+    players.length = 0;
+    resetInterface();
+    isRaiding = true;
+    setTimeout(() => {isRaiding = false;}, 1000)
   }
+};
+
+const buttonReset = () => {
+  addEventListener("click", this.onclick)
+  localStorage.removeItem("players");
+  resetInterface();
 };
 
 const client = new tmi.Client({
