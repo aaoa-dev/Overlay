@@ -5,25 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="output.css" />
     <script src="tmi.js"></script>
-    <script src="script.js" defer></script>
+    <script type="module" src="script.js" defer></script>
   </head>
   <body class="m-16 bg-slate-950">
     <div
-      class="w-full max-w-sm flex flex-col m-4 bg-slate-800 text-slate-100 gap-2 p-2 rounded-2xl"
+      class="w-full max-w-sm flex flex-col m-4 bg-slate-800 text-slate-100 gap-2 p-2 rounded-2xl shadow-[inset_0px_1px_0px_0px_#ffffff40]"
     >
       <div class="flex">
         <h1 class="ml-1 font-bold flex-grow">Spam Battle</h1>
-        <button id="resetbutton" class="transition-all py-0.5 px-2 rounded-2xl bg-sky-800 hover:bg-sky-600 text-sky-100 leading-[100%]">🔄</button>
+        <button id="resetbutton" class="transition-all py-0.5 px-1 rounded-2xl bg-sky-800 hover:bg-sky-600 text-sky-100 leading-[100%]"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+        </svg>
+        </button>
       </div>
       <div class="flex flex-row justify-center align-middle gap-2 items-center">
         <div class="bg-slate-700 flex-grow py-1 px-2 rounded-lg min-w-[45%]">
-          <p id="player1-Name" class="italic">StreamElements</p>
-          <p id="player1-Score" class="text-4xl font-bold">0</p>
+          <p id="p1-Name" class="italic">StreamElements</p>
+          <p id="p1-Score" class="text-4xl font-bold">0</p>
         </div>
         <p class="text-slate-500">VS</p>
         <div class="bg-slate-700 flex-grow py-1 px-2 rounded-lg min-w-[45%]">
-          <p id="player2-Name" class="italic">Stoney_Eagle</p>
-          <p id="player2-Score" class="text-4xl font-bold">0</p>
+          <p id="p2-Name" class="italic">Stoney_Eagle</p>
+          <p id="p2-Score" class="text-4xl font-bold">0</p>
         </div>
       </div>
     </div>
