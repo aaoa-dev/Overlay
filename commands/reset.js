@@ -34,7 +34,7 @@ export const reset = (tags, message) => {
     if (!tags.badges || !Object.entries(tags.badges).some(([key]) => key === "broadcaster" || key === "moderator")) {
       return;
     }
-    if (message === "!raid" || message === "!raid2") {
+    if (message === "!reset") {
       localStorage.removeItem("players"); 
       console.log('Local Storage cleared'); 
       players.length = 0;
