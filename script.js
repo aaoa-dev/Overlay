@@ -1,14 +1,26 @@
-import {reset, check} from './commands/index.js';
+import { commands } from './commands/index.js';
 
-//This is TMI stuff that check message and act accordingly
 const client = new tmi.Client({
-  options: { debug: true },
-  channels: ["aaoa_"],
+  connection: {
+    secure: true,
+    reconnect: true
+  },
+  channels: ['anatoleayadi']
 });
-client.connect().catch(console.error);
-client.on("message", (channel, tags, message, self) => {
+
+client.connect();
+
+client.on('message', (channel, tags, message, self) => {
   if (self) return;
-  reset(tags, message);
-  if (message.startsWith('!')) return;
-  check(tags);
+
+  // Handle commands
+  if (message.startsWith('!')) {
+    const command = message.slice(1).split(' ')[0];
+    if (commands[command]) {
+      commands[command](tags, message);
+    }
+  } else {
+    // Count regular messages
+    commands.count(tags);
+  }
 });

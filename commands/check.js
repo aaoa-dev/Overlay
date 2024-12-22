@@ -1,19 +1,20 @@
 import {players} from './players.js';
-import {updateScore, isRaiding} from './reset.js';
+import {updateScore} from './reset.js';
 
-
-export const check = (tags) => {
-    if (isRaiding) return;
-    if (players.some((player) => player.user == tags.username)) { 
-      const player = players.find((player) => player.user == tags.username); 
-      player.score += 1;
-    } else {
-      players.push({
-        name: tags["display-name"],
-        user: tags.username,
-        score: 1,
-      });
-    }
-    localStorage.setItem("players", JSON.stringify(players));
+export const check = (tags, message) => {
+  if (!tags.badges || !Object.entries(tags.badges).some(([key]) => key === "broadcaster" || key === "moderator")) {
+    return;
+  }
+  if (message === "!check") {
+    console.log('Current Players:', players);
+    const sortedPlayers = [...players].sort((a, b) => b.score - a.score);
+    const topThree = sortedPlayers.slice(0, 3);
+    
+    console.log('Top 3 Players:');
+    topThree.forEach((player, index) => {
+      console.log(`${index + 1}. ${player.name}: ${player.score}`);
+    });
+    
     updateScore();
-  };
+  }
+};
