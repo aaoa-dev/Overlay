@@ -8,19 +8,23 @@ const client = new tmi.Client({
   channels: ['anatoleayadi']
 });
 
-client.connect();
+client.connect().catch(console.error);
 
 client.on('message', (channel, tags, message, self) => {
   if (self) return;
 
-  // Handle commands
-  if (message.startsWith('!')) {
-    const command = message.slice(1).split(' ')[0];
-    if (commands[command]) {
-      commands[command](tags, message);
+  try {
+    // Handle commands
+    if (message.startsWith('!')) {
+      const command = message.slice(1).split(' ')[0];
+      if (commands[command]) {
+        commands[command](tags, message);
+      }
+    } else {
+      // Count regular messages
+      commands.count(tags);
     }
-  } else {
-    // Count regular messages
-    commands.count(tags);
+  } catch (error) {
+    console.error('Error processing message:', error);
   }
 });
