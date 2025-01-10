@@ -4,32 +4,55 @@ const client = new tmi.Client({
   connection: {
     secure: true,
     reconnect: true,
-    maxReconnectAttempts: 3,
-    maxReconnectInterval: 10000,
-    reconnectDecay: 1.5
+    timeout: 10000,
+    reconnectInterval: 2000
   },
-  channels: ['anatoleayadi']
+  channels: ['aaoa_']
 });
 
-// Connection handling
-const connectWithRetry = async () => {
+let connectionAttempts = 0;
+const MAX_ATTEMPTS = 5;
+
+const connect = async () => {
+  if (connectionAttempts >= MAX_ATTEMPTS) {
+    console.error('Max reconnection attempts reached. Please refresh the page.');
+    return;
+  }
+
   try {
     await client.connect();
-    console.log('Successfully connected to Twitch');
-  } catch (error) {
-    console.error('Failed to connect:', error.message);
-    // Try to reconnect after 5 seconds
-    setTimeout(connectWithRetry, 5000);
+    connectionAttempts = 0; // Reset counter on successful connection
+    console.log('Connected to Twitch chat');
+  } catch (err) {
+    connectionAttempts++;
+    console.error(`Connection attempt ${connectionAttempts} failed:`, err.message);
+    setTimeout(connect, 2000 * Math.min(connectionAttempts, 5)); // Exponential backoff
   }
 };
 
-connectWithRetry();
+// Initial connection
+connect();
 
-client.on('disconnected', (reason) => {
-  console.log('Disconnected from Twitch:', reason);
-  connectWithRetry();
+// Connection event handlers
+client.on('connected', (address, port) => {
+  console.log(`Connected to ${address}:${port}`);
+  connectionAttempts = 0;
 });
 
+client.on('disconnected', (reason) => {
+  console.log('Disconnected:', reason);
+  setTimeout(connect, 2000);
+});
+
+client.on('connecting', () => {
+  console.log('Attempting to connect...');
+});
+
+client.on('reconnect', () => {
+  console.log('Reconnecting...');
+});
+
+// Message handling
 client.on('message', (channel, tags, message, self) => {
   if (self) return;
 
