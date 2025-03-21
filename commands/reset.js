@@ -66,6 +66,14 @@ export const resetUI = () => {
 
 export let isRaiding = false;
 
+// Will signal all modules to reset tracking data
+export const resetCountData = () => {
+  // This is a signal function that other modules can import
+  console.log('Resetting all tracking data');
+  // This function intentionally left mostly empty - 
+  // modules that need to reset their state should watch for the isRaiding flag
+};
+
 export const reset = (tags, message) => {
   if (!tags.badges || !Object.entries(tags.badges).some(([key]) => key === "broadcaster" || key === "moderator")) {
     return;
@@ -76,6 +84,11 @@ export const reset = (tags, message) => {
     players.length = 0;
     resetUI();
     isRaiding = true;
-    setTimeout(() => {isRaiding = false;}, 10000)
+    resetCountData(); // Signal to reset all tracking data
+    console.log('All data reset. Raid mode activated for 10 seconds.');
+    setTimeout(() => {
+      isRaiding = false;
+      console.log('Raid mode deactivated. Message counting resumed.');
+    }, 10000);
   }
 };

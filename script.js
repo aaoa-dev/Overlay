@@ -19,6 +19,9 @@ const client = new tmi.Client({
         timeout: 10000,
         reconnectInterval: 2000
     },
+    options: { 
+        debug: true, 
+    },
     identity: {
         username: config.settings.TWITCH.USERNAME,
         password: config.settings.TWITCH.OAUTH_TOKEN
@@ -94,12 +97,22 @@ client.on('message', (channel, tags, message, self) => {
                 commands[command](tags, message, client);
             }
         } else {
-            // Count regular messages
-            commands.count(tags);
+            // Count regular messages - REMOVED FROM HERE
+            // commands.count(tags);
         }
     } catch (error) {
         // Sanitize error message
         const safeError = error.message.replace(new RegExp(config.settings.TWITCH.OAUTH_TOKEN, 'g'), '[REDACTED]');
         console.error('Error processing message:', safeError);
+    }
+});
+
+// Add a separate handler specifically for chat messages to avoid duplicate counting
+client.on('chat', (channel, tags, message, self) => {
+    if (self) return;
+    
+    // Only count actual chat messages (not actions, whispers, etc.)
+    if (tags['message-type'] === 'chat') {
+        commands.count(tags);
     }
 });

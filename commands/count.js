@@ -1,8 +1,43 @@
 import { players } from './players.js';
-import { updateScore, isRaiding } from './reset.js';
+import { updateScore, isRaiding, resetCountData } from './reset.js';
+
+// Track the last message time per user to prevent duplicate counts
+const lastMessageTimes = {};
+const MESSAGE_COOLDOWN = 500; // 500ms cooldown between messages from same user
+
+// Function to clear the message time tracking data
+export const clearMessageTimes = () => {
+    Object.keys(lastMessageTimes).forEach(key => delete lastMessageTimes[key]);
+    console.log('Message tracking data cleared');
+};
+
+// Listen for resetCountData signal
+document.addEventListener('DOMContentLoaded', () => {
+    // Hook up to reset events
+    const originalResetCountData = resetCountData;
+    // We can't directly modify the imported function, but we can clear our data when isRaiding changes
+    setInterval(() => {
+        if (isRaiding) {
+            clearMessageTimes();
+        }
+    }, 1000);
+});
 
 export const count = (tags) => {
-    if (!tags || !tags.username || isRaiding) return;
+    // Skip if missing required data, during raid mode, or not a chat message
+    if (!tags || !tags.username || isRaiding || tags['message-type'] !== 'chat') return;
+    
+    // Basic duplicate prevention by timing
+    const now = Date.now();
+    const lastTime = lastMessageTimes[tags.username] || 0;
+    
+    // Skip if message from this user was counted very recently (potential duplicate)
+    if (now - lastTime < MESSAGE_COOLDOWN) {
+        return;
+    }
+    
+    // Update last message time for this user
+    lastMessageTimes[tags.username] = now;
     
     try {
         const existingPlayer = players.find((player) => player.user === tags.username);
