@@ -7,42 +7,36 @@
     <script src="tmi.js"></script>
     <script type="module" src="script.js" defer></script>
   </head>
-  <body class="m-16">
-    <div class="w-full max-w-md flex flex-col m-4 bg-violet-800 text-violet-100 gap-4 p-4 rounded-lg">
+  <body class="m-0 p-0 w-full">
+    <div class="w-full flex flex-col p-4 text-[#1b1b1b]">
       <div class="flex">
-        <h1 class="ml-1 font-bold flex-grow">Spam Battle</h1>
+        <h1 class="ml-1 font-black flex-grow text-4xl mb-8">WHO WON?</h1>
       </div>
       
-      <!-- Podium Layout -->
-      <div class="flex justify-center items-end gap-4 mt-4">
-        <!-- Second Place -->
-        <div class="flex flex-col items-center w-24">
-          <div id="p2-Avatar" class="w-16 h-16 rounded-lg bg-violet-700 mb-2 flex items-center justify-center text-xl font-bold text-black">A</div>
-          <p id="p2-Name" class="text-center mb-1 truncate w-full hover:text-clip" title="Player 2">StreamElements</p>
-          <p id="p2-Score" class="text-2xl font-bold mb-2">0</p>
-          <div class="bg-violet-700 w-16 h-16 flex items-center justify-center text-2xl font-bold rounded-lg">
-            2
-          </div>
-        </div>
-
+      <!-- Restaurant Menu Style List -->
+      <div class="flex flex-col w-full">
         <!-- First Place -->
-        <div class="flex flex-col items-center w-24">
-          <div id="p1-Avatar" class="w-16 h-16 rounded-lg bg-violet-700 mb-2 flex items-center justify-center text-xl font-bold text-black">B</div>
-          <p id="p1-Name" class="text-center mb-1 truncate w-full hover:text-clip" title="Player 1">Stoney_Eagle</p>
-          <p id="p1-Score" class="text-2xl font-bold mb-2">0</p>
-          <div class="bg-violet-700 w-16 h-24 flex items-center justify-center text-2xl font-bold rounded-lg">
-            1
-          </div>
+        <div class="leaderboard-item">
+          <span class="position">1.</span>
+          <span id="p1-Name" class="user-name" title="Player 1">UserName</span>
+          <div class="dashed-line"></div>
+          <span id="p1-Score" class="score-value">{8888}</span>
         </div>
-
+        
+        <!-- Second Place -->
+        <div class="leaderboard-item">
+          <span class="position">2.</span>
+          <span id="p2-Name" class="user-name" title="Player 2">LongUserName</span>
+          <div class="dashed-line"></div>
+          <span id="p2-Score" class="score-value">{188}</span>
+        </div>
+        
         <!-- Third Place -->
-        <div class="flex flex-col items-center w-24">
-          <div id="p3-Avatar" class="w-16 h-16 rounded-lg bg-violet-700 mb-2 flex items-center justify-center text-xl font-bold text-black">C</div>
-          <p id="p3-Name" class="text-center mb-1 truncate w-full hover:text-clip" title="Player 3">aaoa_</p>
-          <p id="p3-Score" class="text-2xl font-bold mb-2">0</p>
-          <div class="bg-violet-700 w-16 h-12 flex items-center justify-center text-2xl font-bold rounded-lg">
-            3
-          </div>
+        <div class="leaderboard-item">
+          <span class="position">3.</span>
+          <span id="p3-Name" class="user-name" title="Player 3">User</span>
+          <div class="dashed-line"></div>
+          <span id="p3-Score" class="score-value">{88}</span>
         </div>
       </div>
     </div>
